@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_16_190152) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_17_115519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "receiver_id", null: false
+    t.integer "rating", null: false
+    t.string "comment", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["receiver_id"], name: "index_reviews_on_receiver_id"
+    t.index ["sender_id"], name: "index_reviews_on_sender_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "role_name"
@@ -44,5 +55,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_16_190152) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "reviews", "users", column: "receiver_id"
+  add_foreign_key "reviews", "users", column: "sender_id"
   add_foreign_key "users", "roles"
 end
