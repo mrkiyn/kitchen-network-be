@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get '/current_user', to: 'current_user#index'
-  
+  resources :job_listings, only: [:index, :show, :create, :update, :destroy]
+  resources :applied_jobs, only: [:index, :create, :destroy]
+
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -10,4 +12,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
+
+  get '*path', to: 'application#frontend_index', constraints: ->(request) do
+    !request.xhr? && request.format.html?
+  end
 end
