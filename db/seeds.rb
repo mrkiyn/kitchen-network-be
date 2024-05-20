@@ -17,8 +17,7 @@ Role.destroy_all
 # Create roles
 roles = [
   { role_name: 'admin' },
-  { role_name: 'moderator' },
-  { role_name: 'user' },
+  { role_name: 'owner' },
   { role_name: 'talent' }
 ]
 
@@ -26,13 +25,10 @@ roles.each do |role_attributes|
   Role.find_or_create_by!(role_attributes)
 end
 
-# Find roles by name
 admin_role = Role.find_by(role_name: 'admin')
-moderator_role = Role.find_by(role_name: 'moderator')
-user_role = Role.find_by(role_name: 'user')
+owner_role = Role.find_by(role_name: 'owner')
 talent_role = Role.find_by(role_name: 'talent')
 
-# Create an admin user and skip confirmation
 admin_user = User.new(
   first_name: 'Mark Ian',
   last_name: 'Amado',
@@ -45,18 +41,17 @@ admin_user = User.new(
 admin_user.skip_confirmation!
 admin_user.save!
 
-# Create additional users
-regular_user = User.new(
+owner_user = User.new(
   first_name: 'Regular',
   last_name: 'User',
   phone_number: '9876543210',
   email: 'user@example.com',
   password: 'password',
-  role: user_role
+  role: owner_role
 )
 
-regular_user.skip_confirmation!
-regular_user.save!
+owner_user.skip_confirmation!
+owner_user.save!
 
 talent_user = User.new(
   first_name: 'Talent',
@@ -76,7 +71,7 @@ job_listing1 = JobListing.create!(
   description: 'Responsible for kitchen operations',
   requirements: '5+ years experience',
   salary: 60000.00,
-  owner_id: regular_user.id
+  owner_id: owner_user.id
 )
 
 job_listing2 = JobListing.create!(
@@ -84,7 +79,7 @@ job_listing2 = JobListing.create!(
   description: 'Assist the head chef',
   requirements: '3+ years experience',
   salary: 40000.00,
-  owner_id: regular_user.id
+  owner_id: owner_user.id
 )
 
 # Create applied jobs
