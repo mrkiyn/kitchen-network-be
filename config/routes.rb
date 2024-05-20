@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get '/current_user', to: 'current_user#index'
-  resources :job_listings, only: [:index, :show, :create, :update, :destroy]
+
+  resources :job_listings do
+    get 'applicants', on: :member
+  end
   resources :applied_jobs, only: [:index, :create, :destroy]
 
   devise_for :users, path: '', path_names: {
