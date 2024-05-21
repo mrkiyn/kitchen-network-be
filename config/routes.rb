@@ -12,10 +12,8 @@ Rails.application.routes.draw do
   }
 
   namespace :admin do
-    resources :users, only: [:index, :edit, :update] do
-      collection do
-        get 'pending', to: 'users#pending_users'
-      end
-    end
+    resources :users, only: [:index, :edit, :update]
+    get 'moderators', to: 'users#moderators'
+    get 'users/pending', to: 'users#pending_users'
   end
 end
