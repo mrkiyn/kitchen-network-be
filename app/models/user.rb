@@ -7,4 +7,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable, :confirmable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  def admin?
+    role.role_name == 'admin'
+  end
 end

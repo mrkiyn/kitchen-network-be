@@ -1,4 +1,4 @@
-@ruby -x "%~f0" %*
+#!/usr/bin/env ruby
 @exit /b %ERRORLEVEL%
 
 #!/usr/bin/env ruby
